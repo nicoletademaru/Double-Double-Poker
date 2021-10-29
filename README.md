@@ -1,4 +1,4 @@
-# Double-Double--Bonus-Poker
+# Double-Double-Bonus-Poker
 
 ## Background 
 
@@ -18,6 +18,8 @@ While playing this game the user will be able to:
  - Restart the game to the default 100 starting credits 
 
 ## Wireframes
+
+![webframe](https://raw.githubusercontent.com/nicoletademaru/double-double-poker/main/ddbp-webframe.png)
 
 
 ## Technologies 
