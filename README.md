@@ -48,5 +48,5 @@ Add finishing touches and clean up interface
 
 ## Bonus 
 Implement tracker that keeps track of the players total wins and losses
-  - Can also have visualization of the ratio of specific winning hands to the total wins
+  Can also have visualization of the ratio of specific winning hands to the total wins
 Create a home page with other possible games to choose from 
