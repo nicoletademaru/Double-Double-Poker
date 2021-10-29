@@ -47,4 +47,6 @@ Continue game logic and create pixel art for the cards and objects
 Add finishing touches and clean up interface
 
 ## Bonus 
+Implement tracker that keeps track of the players total wins and losses
+  - Can also have visualization of the ratio of specific winning hands to the total wins
 Create a home page with other possible games to choose from 
