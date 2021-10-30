@@ -7,7 +7,9 @@ document.addEventListener("DOMContentLoaded",() => {
 
   // const card = new Card({pos:[20, 80]})
   // card.draw(ctx)
-// 
+
   let v = new Game(ctx);
+  ctx.font = '10px Arial';
+  ctx.fillText("STRAIGHT FLUSH", 100, 20);
 })
 
