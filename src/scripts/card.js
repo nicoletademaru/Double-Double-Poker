@@ -29,6 +29,7 @@ class Card {
     ctx.rect(this.pos[0], this.pos[1], 160, 230);
     ctx.stroke();
   }
+
 }
 
 

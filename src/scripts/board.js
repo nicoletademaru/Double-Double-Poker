@@ -1,5 +1,6 @@
 import Card from "./card";
-import tableColumn from "./table_column"
+import tableColumn from "./table_column";
+import Button from "./button";
 
 const DEFAULTS = { NUM_CARDS: 5};
 const PAYOUTS =  { 
@@ -17,20 +18,29 @@ const PAYOUTS =  {
   12: [1, "TWO PAIR"], 
   13: [1, "JACKS OR BETTER"] 
 };
+const BUTTONS = {
+  0: "BET +1",
+  1: "BET -1",
+  2: "MAX BET",
+  3: "DEAL",
+  4: "DRAW"
+}
 
 class Board {
   constructor(ctx) {
     this.num_cards = DEFAULTS.NUM_CARDS;
     this.hand = [];
     this.table = [];
+    this.buttons = [];
     this.addCards.bind(this)(ctx);
     this.addColumns.bind(this)(ctx);
     this.populateColumns.bind(this)(ctx);
+    this.addButtons.bind(this)(ctx);
   }
   
   addCards(ctx) {
     for (let i = 0, j = 0; i < this.num_cards; i++, j += 175) {
-      let pos = [45 + j, 320]
+      let pos = [45 + j, 300]
       let card = new Card({ pos })
       this.hand.push(card)
     }
@@ -49,7 +59,7 @@ class Board {
   }
 
   addColumns(ctx) {
-    let y = 20;
+    let y = 15;
     let firstCol = new tableColumn({pos: [32.5, y], width: 310});
     this.table.push(firstCol);
 
@@ -71,18 +81,37 @@ class Board {
   }
 
   populateColumns(ctx) {
-    for (let j = 1, y = 42; j <= 13; j++, y += 20) {
+    for (let j = 1, y = 37; j <= 13; j++, y += 20) {
       ctx.textAlign = 'left';
       this.table[0].populate(ctx, PAYOUTS[j][1], y, 38)
     }
 
     for (let i=1; i < this.table.length; i++) {
-      for (let j=1, y=42; j <= 13; j++, y+=20) {
+      for (let j=1, y=37; j <= 13; j++, y+=20) {
         ctx.textAlign = 'right';
         this.table[i].populate(ctx, PAYOUTS[j][0], y)
       }
     }
   }
+
+  addButtons(ctx) {
+    for (let i = 0, j = 0; i < 4; i++, j += 110) {
+      let pos = [500 + j, 590]
+      let button = new Button({ pos })
+      this.buttons.push(button)
+    }
+
+    this.drawButtons(ctx)
+  };
+
+  drawButtons(ctx) {
+    for (let i = 0; i < 4; i++) {
+      this.buttons[i].draw(ctx)
+      console.log(BUTTONS[i])
+      console.log(this.buttons)
+      this.buttons[i].populate(ctx, BUTTONS[i])
+    }
+  };
 
 }
 
