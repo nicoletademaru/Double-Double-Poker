@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded",() => {
   canvas.height = 650;
   const ctx = canvas.getContext('2d');
   let game = new Game(ctx);
+  let deck = game.createDeck()
+  console.log(deck)
 
   canvas.addEventListener('click', (event) => {
     const rect = canvas.getBoundingClientRect();

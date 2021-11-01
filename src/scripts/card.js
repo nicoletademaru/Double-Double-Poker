@@ -1,26 +1,9 @@
-const SUITS = {1: "heart", 2: "diamond", 3: "club", 4: "spade"}
-const VALUES = {
-  2: 2,
-  3: 3,
-  4: 4,
-  5: 5,
-  6: 6,
-  7: 7,
-  8: 8,
-  9: 9,
-  10: 10,
-  11: "J",
-  12: "Q",
-  13: "K",
-  14: "A"
-}
-
 class Card {
   constructor(object) {
     this.pos = object["pos"];
     this.color = "#FF5733";
-    this.value = "";
-    this.suit = "";
+    this.value = object["value"];
+    this.suit = object["suit"];
   }
 
   draw(ctx) {
