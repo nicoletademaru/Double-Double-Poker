@@ -2,13 +2,15 @@ class Button {
   constructor(object) {
     this.pos = object["pos"]
     this.color = "#FF5733";
+    this.width = 90;
+    this.height = 40;
   }
 
   draw(ctx) {
     // ctx.fillStyle = this.color;
     ctx.color = this.color
     ctx.beginPath();
-    ctx.rect(this.pos[0], this.pos[1], 90, 40);
+    ctx.rect(this.pos[0], this.pos[1], this.width, this.height);
     ctx.stroke();
     ctx.closePath()
   }

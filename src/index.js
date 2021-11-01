@@ -7,8 +7,13 @@ document.addEventListener("DOMContentLoaded",() => {
   canvas.height = 650;
   const ctx = canvas.getContext('2d');
 
+  canvas.addEventListener('click', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    
+  })
+
   let v = new Board(ctx);
-  // ctx.font = '10px Arial';
-  // ctx.fillText("STRAIGHT FLUSH", 100, 20);
 })
 

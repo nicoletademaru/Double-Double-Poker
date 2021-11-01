@@ -45,7 +45,7 @@ class Board {
       this.hand.push(card)
     }
 
-    this.drawCards(ctx)
+    this.drawCards(ctx);
   }
 
 
@@ -53,8 +53,10 @@ class Board {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     let i =0
     setInterval(() => {
-      this.hand[i].draw(ctx);
-      i++
+      if (i < 5) {
+        this.hand[i].draw(ctx);
+        i++
+      }
     }, 500)
   }
 
@@ -82,14 +84,19 @@ class Board {
 
   populateColumns(ctx) {
     for (let j = 1, y = 37; j <= 13; j++, y += 20) {
+      ctx.font = '21px Arial Narrow'
       ctx.textAlign = 'left';
       this.table[0].populate(ctx, PAYOUTS[j][1], y, 38)
     }
 
-    for (let i=1; i < this.table.length; i++) {
+    for (let i=1; i < 6; i++) {
       for (let j=1, y=37; j <= 13; j++, y+=20) {
+        ctx.font = '21px Arial'
         ctx.textAlign = 'right';
-        this.table[i].populate(ctx, PAYOUTS[j][0], y)
+        if (i === 5 && j === 1) 
+          this.table[i].populate(ctx, PAYOUTS[j][0] * 16, y)
+        else
+          this.table[i].populate(ctx, PAYOUTS[j][0] * i, y)
       }
     }
   }
