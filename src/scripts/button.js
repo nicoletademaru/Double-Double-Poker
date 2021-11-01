@@ -22,6 +22,10 @@ class Button {
     ctx.textAlign = 'center';
     ctx.fillText(label, x, y);
   }
+
+  click(xclick, yclick) {
+    
+  }
 }
 
 export default Button;

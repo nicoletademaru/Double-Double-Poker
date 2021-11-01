@@ -19,11 +19,11 @@ const PAYOUTS =  {
   13: [1, "JACKS OR BETTER"] 
 };
 const BUTTONS = {
-  0: "BET +1",
-  1: "BET -1",
-  2: "MAX BET",
-  3: "DEAL",
-  4: "DRAW"
+  0: ["BET +1"],
+  1: ["BET -1"],
+  2: ["MAX BET"],
+  3: ["DEAL"],
+  4: ["DRAW"]
 }
 
 class Board {
@@ -116,7 +116,7 @@ class Board {
       this.buttons[i].draw(ctx)
       console.log(BUTTONS[i])
       console.log(this.buttons)
-      this.buttons[i].populate(ctx, BUTTONS[i])
+      this.buttons[i].populate(ctx, BUTTONS[i][0])
     }
   };
 
