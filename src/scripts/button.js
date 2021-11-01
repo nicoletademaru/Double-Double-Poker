@@ -10,6 +10,7 @@ class Button {
     ctx.beginPath();
     ctx.rect(this.pos[0], this.pos[1], 90, 40);
     ctx.stroke();
+    ctx.closePath()
   }
   
   populate(ctx, label) {
