@@ -21,8 +21,8 @@ class Game {
   constructor(ctx) {
     this.board = new Board(ctx);
     this.bet = 1
-    this.showBet(ctx);
     this.deck = this.createDeck();
+    this.showBet(ctx);
   }
 
   buttonClicks(ctx, x, y) {
@@ -52,18 +52,29 @@ class Game {
 
   createDeck() {
     let deck = {}
+    let cardImg = new Image();
+    cardImg.src = "deck.png"
     for (let i = 1; i < 5; i++) {
       for (let j = 1; j < 14; j++) {
         let key = SUITS[i][0] + VALUES[j]
 
         deck[key] = new Card({
           value: VALUES[j],
-          suit: SUITS[i]
+          suit: SUITS[i],
+          sx: 81 * (j-1),
+          sy: 117.4 * (i-1)
         })
       }
     }
     return deck;
   }
+
+  dealCards() {
+    
+
+  }
+
+
 
 }
 

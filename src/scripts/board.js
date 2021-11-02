@@ -32,6 +32,7 @@ class Board {
     this.hand = [];
     this.table = [];
     this.buttons = [];
+    this.cardPos = [];
     this.addCards.bind(this)(ctx);
     this.addColumns.bind(this)(ctx);
     this.populateColumns.bind(this)(ctx);
@@ -40,11 +41,14 @@ class Board {
   
   addCards(ctx) {
     for (let i = 0, j = 0; i < this.num_cards; i++, j += 175) {
+      let x = 45 + j;
+      let y = 300; 
+      this.cardPos.push([x,y]);
       let pos = [45 + j, 300]
       let card = new Card({ pos })
       this.hand.push(card)
     }
-
+    // return pos;
     this.drawCards(ctx);
   }
 
@@ -114,8 +118,6 @@ class Board {
   drawButtons(ctx) {
     for (let i = 0; i < 4; i++) {
       this.buttons[i].draw(ctx)
-      console.log(BUTTONS[i])
-      console.log(this.buttons)
       this.buttons[i].populate(ctx, BUTTONS[i][0])
     }
   };

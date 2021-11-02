@@ -7,8 +7,17 @@ document.addEventListener("DOMContentLoaded",() => {
   canvas.height = 650;
   const ctx = canvas.getContext('2d');
   let game = new Game(ctx);
-  let deck = game.createDeck()
-  console.log(deck)
+
+  console.log(game.board.cardPos)
+
+  let cardImg = new Image();
+  console.log(cardImg);
+  cardImg.onload = function() {
+    ctx.drawImage(cardImg, 0, 0, 81, 117.4, 45, 300, 162, 234.8,)
+    // ctx.drawImage(cardImg, 0, 0)
+  }
+  cardImg.src = "deck.png"
+  
 
   canvas.addEventListener('click', (event) => {
     const rect = canvas.getBoundingClientRect();

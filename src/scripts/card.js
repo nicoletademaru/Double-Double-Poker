@@ -4,6 +4,10 @@ class Card {
     this.color = "#FF5733";
     this.value = object["value"];
     this.suit = object["suit"];
+    this.sx = object["sx"];
+    this.sy = object["sy"];
+    this.sheight = 117.4;
+    this.swidth = 81;
   }
 
   draw(ctx) {
