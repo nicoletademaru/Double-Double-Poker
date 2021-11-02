@@ -17,12 +17,10 @@ class Card {
     const pos1 = pos[1];
     let cardImg = new Image();
     cardImg.onload = function () {
-      ctx.drawImage(cardImg, sx, sy, 81, 117.4, pos0, pos1, 162, 234.8)
+      ctx.drawImage(cardImg, sx, sy, 81, 117.4, pos0, pos1, 141.8, 205.5)
     }
     cardImg.src = "deck.png"
-
   }
-
 }
 
 
