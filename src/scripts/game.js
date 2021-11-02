@@ -1,5 +1,6 @@
 import Board from "./board";
 import Card from "./card";
+
 let SUITS = { 1: "heart", 2: "diamond", 3: "club", 4: "spade" }
 let VALUES = {
   1: 2,
@@ -23,58 +24,86 @@ class Game {
     this.bet = 1
     this.deck = this.createDeck();
     this.showBet(ctx);
+    this.currHand = [];
   }
 
   buttonClicks(ctx, x, y) {
     let buttons = this.board.buttons
-    ctx.fillText(`Bet: ${this.bet}`, 475, 565);
-
     for (let i = 0; i < buttons.length; i++) {
       if (buttons[i].isValid(x,y) )
         if (i === 0) {
-          this.bet += 1
+          if (this.bet === 5)
+            this.bet = 5;
+          else
+            this.bet += 1;
+          this.showBet(ctx);
         }
-        else if (i === 1)
-          this.bet -= 1
-        else if (i === 2) 
-          console.log("play max bet")
+        else if (i === 1) {
+          if (this.bet === 1)
+            this.bet = 1;
+          else
+            this.bet -= 1;
+          this.showBet(ctx);
+        }
+        else if (i === 2) {
+          this.bet = 5;
+          this.dealCards(ctx);
+          this.showBet(ctx);
+        }
         else 
-          console.log("deal cards")
+          this.dealCards(ctx);
     }
   }
 
-  showBet(ctx) {
+  holdCard() {
 
-    ctx.font = '17px Arial';
+  }
+
+  showBet(ctx) {
+    ctx.font = '900 30.1px Courier New';
     ctx.textAlign = 'center';
-    ctx.fillText(`Bet: ${this.bet}`, 475, 565);
+    let clear = ctx.clearRect(435, 540, 90, 40);
+    ctx.strokeText(`BET ${this.bet}`, 475, 570);
+
+    ctx.font = 'bolder 30px Courier New';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'red'
+    ctx.fillText(`BET ${this.bet}`, 475, 570);
   }
 
   createDeck() {
     let deck = {}
-    let cardImg = new Image();
-    cardImg.src = "deck.png"
+    let p = 0
     for (let i = 1; i < 5; i++) {
       for (let j = 1; j < 14; j++) {
-        let key = SUITS[i][0] + VALUES[j]
-
-        deck[key] = new Card({
+          deck[p] = new Card({
           value: VALUES[j],
           suit: SUITS[i],
           sx: 81 * (j-1),
           sy: 117.4 * (i-1)
         })
+        p++
       }
     }
     return deck;
   }
 
-  dealCards() {
-    
+  dealCards(ctx) {
+    for (let i = 0; i < 5; i++) {
+      let randomCard = Math.floor(Math.random() * 52);
+      this.currHand.push(this.deck[randomCard])
+      delete this.deck[randomCard]
+      console.log(this.deck)
+    }
 
+    let i = 0
+    setInterval(() => {
+      if (i < 5) {
+        this.currHand[i].draw(ctx, this.board.cardPos[i]);
+        i++
+      }
+    }, 500)
   }
-
-
 
 }
 

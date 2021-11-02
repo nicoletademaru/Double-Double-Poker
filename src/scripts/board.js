@@ -44,24 +44,9 @@ class Board {
       let x = 45 + j;
       let y = 300; 
       this.cardPos.push([x,y]);
-      let pos = [45 + j, 300]
-      let card = new Card({ pos })
-      this.hand.push(card)
     }
     // return pos;
-    this.drawCards(ctx);
-  }
-
-
-  drawCards(ctx) {
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    let i =0
-    setInterval(() => {
-      if (i < 5) {
-        this.hand[i].draw(ctx);
-        i++
-      }
-    }, 500)
+    // this.drawCards(ctx);
   }
 
   addColumns(ctx) {

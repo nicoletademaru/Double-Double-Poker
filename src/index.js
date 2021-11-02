@@ -8,15 +8,13 @@ document.addEventListener("DOMContentLoaded",() => {
   const ctx = canvas.getContext('2d');
   let game = new Game(ctx);
 
-  console.log(game.board.cardPos)
+  // game.dealCards(ctx);
 
   let cardImg = new Image();
-  console.log(cardImg);
   cardImg.onload = function() {
-    ctx.drawImage(cardImg, 0, 0, 81, 117.4, 45, 300, 162, 234.8,)
-    // ctx.drawImage(cardImg, 0, 0)
+    ctx.drawImage(cardImg, 0, 0, 81, 117.4, 45, 300, 162, 234.8)
   }
-  cardImg.src = "deck.png"
+  // cardImg.src = "deck.png"
   
 
   canvas.addEventListener('click', (event) => {
