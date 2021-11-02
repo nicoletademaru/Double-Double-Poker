@@ -21,7 +21,8 @@ let VALUES = {
 class Game {
   constructor(ctx) {
     this.board = new Board(ctx);
-    this.bet = 1
+    this.bet = 1;
+    this.credit = 100;
     this.deck = this.createDeck();
     this.showBet(ctx);
     this.currHand = [];
@@ -31,7 +32,7 @@ class Game {
     let buttons = this.board.buttons
     for (let i = 0; i < buttons.length; i++) {
       if (buttons[i].isValid(x,y) )
-        if (i === 0) {
+        if (i === 0 ) {
           if (this.bet === 5)
             this.bet = 5;
           else
@@ -47,6 +48,7 @@ class Game {
         }
         else if (i === 2) {
           this.bet = 5;
+          this.credit -= 5
           this.dealCards(ctx);
           this.showBet(ctx);
         }
@@ -56,19 +58,29 @@ class Game {
   }
 
   holdCard() {
-
+    
   }
 
   showBet(ctx) {
-    ctx.font = '900 30.1px Courier New';
+    ctx.font = '900 32.1px Courier New';
     ctx.textAlign = 'center';
-    let clear = ctx.clearRect(435, 540, 90, 40);
+    ctx.clearRect(435, 540, 90, 40);
     ctx.strokeText(`BET ${this.bet}`, 475, 570);
 
-    ctx.font = 'bolder 30px Courier New';
+    ctx.font = 'bolder 32px Courier New';
     ctx.textAlign = 'center';
     ctx.fillStyle = 'red'
     ctx.fillText(`BET ${this.bet}`, 475, 570);
+
+    ctx.font = '900 32.1px Courier New';
+    ctx.textAlign = 'right';
+    ctx.clearRect(720, 540, 200, 40);
+    ctx.strokeText(`CREDIT ${this.credit}`, 920, 570);
+
+    ctx.font = 'bolder 32px Courier New';
+    ctx.textAlign = 'right';
+    ctx.fillStyle = 'red'
+    ctx.fillText(`CREDIT ${this.credit}`, 920, 570);
   }
 
   createDeck() {
@@ -89,11 +101,14 @@ class Game {
   }
 
   dealCards(ctx) {
-    for (let i = 0; i < 5; i++) {
-      let randomCard = Math.floor(Math.random() * 52);
-      this.currHand.push(this.deck[randomCard])
-      delete this.deck[randomCard]
-      console.log(this.deck)
+
+    while (this.currHand.length !== 5) {
+      let rand = Math.floor(Math.random() * 52);
+      console.log(this.currHand)
+      if (this.deck[rand] !== undefined) {
+        this.currHand.push(this.deck[rand]);
+        delete this.deck[rand];
+      }
     }
 
     let i = 0

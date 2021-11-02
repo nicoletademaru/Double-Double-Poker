@@ -4,6 +4,8 @@ class Card {
     this.value = object["value"];
     this.suit = object["suit"];
     this.held= false;
+    this.width = 81;
+    this.height = 117.4;
     this.sx = object["sx"];
     this.sy = object["sy"];
   }
