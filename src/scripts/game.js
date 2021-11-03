@@ -1,5 +1,6 @@
 import Board from "./board";
 import Card from "./card";
+import WinningHand from "./winning_hand"
 
 let SUITS = { 1: "heart", 2: "diamond", 3: "club", 4: "spade" }
 let VALUES = {
@@ -25,7 +26,6 @@ class Game {
     this.credit = 100;
     this.deck = this.resetDeck(ctx);
     this.start = false;
-    console.log(this.start)
     this.currHand = [];
     this.showStats(ctx);
   }
@@ -59,16 +59,17 @@ class Game {
         }
         // Start game with current bet and subtract from total credits
         else if (i === 3 && this.start === false) {
-          console.log("NEW GAME")
-          this.resetDeck(ctx);
-          this.currHand = [];
-          this.credit -= this.bet;
-          this.dealCards(ctx);
-          console.log(this.deck)
-          this.start = true;
+            console.log("NEW GAME")
+            this.resetDeck(ctx);
+            this.currHand = [];
+            this.credit -= this.bet;
+            this.dealCards(ctx);
+            this.start = true;
         } else if (i === 3 && this.start === true) {
-          this.dealCards(ctx);
-          this.start = false
+            this.dealCards(ctx);
+            this.start = false
+            let finalHand = new WinningHand(this.currHand)
+            console.log(`pair ${finalHand.fours()}`);
         }
       this.showStats(ctx);
     }
@@ -150,25 +151,30 @@ class Game {
 
   dealCards(ctx) {
     // Deal all five cards at the start of a game
-    if (this.start === false) {
-        while (this.currHand.length !== 5) {
-        let rand = Math.floor(Math.random() * 52);
-        if (this.deck[rand] !== undefined) {
-          this.currHand.push(this.deck[rand]);
-          delete this.deck[rand];
+    // if (this.start === false) {
+    //     while (this.currHand.length !== 5) {
+    //     let rand = Math.floor(Math.random() * 52);
+    //     if (this.deck[rand] !== undefined) {
+    //       this.currHand.push(this.deck[rand]);
+    //       delete this.deck[rand];
+    //     }
+    //   }
+    // } 
+      if (this.start === false) {
+        let test = [12,25,38,51, 3]
+        for (let i = 0; i < test.length; i++) {
+          this.currHand.push(this.deck[test[i]])
         }
       }
-    } else {
+      else {
     // Draw new cards for the ones that were not held
         for (let i = 0; i < 5; i++) {
           if (this.currHand[i].held === false) {
-            console.log(`this is index of ${i}`)
             let rand = Math.floor(Math.random() * 52);
             while (this.deck[rand] === undefined) {
               rand = Math.floor(Math.random() * 52);
             }
-            console.log(rand)
-            console.log(this.deck)
+
             this.deck[rand].pos = this.currHand[i].pos;
             this.currHand[i] = this.deck[rand];
             delete this.deck[rand];
