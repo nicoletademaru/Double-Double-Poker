@@ -23,10 +23,11 @@ class Game {
     this.board = new Board(ctx);
     this.bet = 1;
     this.credit = 100;
-    this.deck = this.createDeck();
+    this.deck = this.resetDeck();
     this.start = false;
-    this.showBet(ctx);
+    console.log(this.start)
     this.currHand = [];
+    this.showStats(ctx);
   }
 
   buttonClicks(ctx, x, y) {
@@ -49,39 +50,47 @@ class Game {
         }
         // Start game with max bet of 5 and subtract from total credits
         else if (i === 2 && this.start === false) {
+          this.resetDeck();
           this.bet = 5;
           this.credit -= 5
-          this.start = true;
           this.dealCards(ctx);
+          this.start = true;
         }
         // Start game with current bet and subtract from total credits
-        else if (i === 3) {
-          this.start = true;
+        else if (i === 3 && this.start === false) {
+          this.resetDeck();
           this.credit -= this.bet;
           this.dealCards(ctx);
-
+          this.start = true;
+        } else if (i === 3 && this.start === true) {
+          this.dealCards(ctx);
         }
-      this.showBet(ctx);
+      this.showStats(ctx);
     }
   }
 
   cardClicks(ctx, x, y) {
     let cards = this.currHand;
     for (let i = 0; i < cards.length; i++) {
-      console.log("clicked")
-      // With a valid click, switch the card.held value if the game has started
-      console.log(cards[i])
-      if (cards[i].isValid(x,y) && this.start === true) {
-        if (cards[i].held === true)
-          cards[i].held = false;
-        else
-          cards[i].held = true;
+      let card = cards[i];
 
+      if (card.isValid(x,y) && this.start === true) {
+        if (card.held === true) {
+          ctx.clearRect(card.pos[0], card.pos[1], 100, -40);
+          card.held = false;
+        } else {
+        // Add "held" above the card
+          ctx.font = '900 21px Arial';
+          ctx.textAlign = 'center';
+          ctx.fillStyle = 'white'
+          ctx.fillText(`HELD`, card.pos[0] + 71, card.pos[1] - 5);
+          card.held = true;
+        }
       }
     }
   }
 
-  showBet(ctx) {
+  showStats(ctx) {
     // Print out current bet
     ctx.font = '900 32.1px Courier New';
     ctx.textAlign = 'center';
@@ -103,9 +112,20 @@ class Game {
     ctx.textAlign = 'right';
     ctx.fillStyle = 'red'
     ctx.fillText(`CREDIT ${this.credit}`, 920, 605);
+
+    // Print out "DRAW" or "DEAL" based on game
+    if (this.start === false) {
+      ctx.clearRect(820, 623, 200, 100);
+      this.board.buttons[3].draw(ctx)
+      this.board.buttons[3].populate(ctx, "DEAL")
+    } else {
+      ctx.clearRect(820, 623, 200, 100);
+      this.board.buttons[3].draw(ctx)
+      this.board.buttons[3].populate(ctx, "DRAW")
+    }
   }
 
-  createDeck() {
+  resetDeck() {
     let deck = {}
     let p = 0
     for (let i = 1; i < 5; i++) {
@@ -123,12 +143,30 @@ class Game {
   }
 
   dealCards(ctx) {
-    while (this.currHand.length !== 5) {
-      let rand = Math.floor(Math.random() * 52);
-      if (this.deck[rand] !== undefined) {
-        this.currHand.push(this.deck[rand]);
-        delete this.deck[rand];
+    // Deal all five cards at the start of a game
+    if (this.start === false) {
+      console.log("when start is true")
+        while (this.currHand.length !== 5) {
+        let rand = Math.floor(Math.random() * 52);
+        if (this.deck[rand] !== undefined) {
+          this.currHand.push(this.deck[rand]);
+          delete this.deck[rand];
+        }
       }
+    } else {
+    // Draw new cards for the ones that were not held
+        for (let i = 0; i < 5; i++) {
+          if (this.currHand[i].held === false) {
+            let rand = Math.floor(Math.random() * 52);
+            if (this.deck[rand] !== undefined) {
+              this.deck[rand].pos = this.currHand[i].pos;
+              this.currHand[i] = this.deck[rand];
+              delete this.deck[rand];
+          }
+        }
+      }
+      this.start = false
+      console.log(this.start)
     }
 
     // Print out cards every 0.5 seconds

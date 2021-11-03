@@ -102,7 +102,7 @@ class Board {
   };
 
   drawButtons(ctx) {
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 3; i++) {
       this.buttons[i].draw(ctx)
       this.buttons[i].populate(ctx, BUTTONS[i][0])
     }

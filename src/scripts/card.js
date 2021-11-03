@@ -1,11 +1,11 @@
 class Card {
   constructor(object) {
-    this.color = "#FF5733";
     this.value = object["value"];
     this.suit = object["suit"];
-    this.held= false;
-    this.width = 81;
-    this.height = 117.4;
+    this.held = true;
+    this.pos=[];
+    this.width = 141.8;
+    this.height = 205.5;
     this.sx = object["sx"];
     this.sy = object["sy"];
   }
