@@ -1,3 +1,19 @@
+let VALUES = {
+  2: 1,
+  3: 2,
+  4: 3,
+  5: 4,
+  6: 5,
+  7: 6,
+  8: 7,
+  9: 8,
+  10: 9,
+  "J": 10,
+  "Q": 11,
+  "K": 12,
+  "A": 13,
+}
+
 class WinningHand {
   constructor(hand) {
   this.hand = hand;
@@ -19,6 +35,10 @@ class WinningHand {
     return this.hand.every(card => card.suit === suit)
   };
 
+  straightFlush() {
+    return this.flush() && this.straight();
+  }
+
   fours() {
     let cardHash = this.values.hashCounter();
     Object.keys(cardHash).forEach((key) => {
@@ -27,36 +47,20 @@ class WinningHand {
     })
 
     let keys = Object.keys(cardHash);
-    
-    if (keys[0] === 'A') {
-      console.log("its A's")
-      return true
-    } else if ([2, 3, 4].includes(parseInt(keys[0]))) {
-      console.log("its 234")
-      return true
-    } else {
-      console.log('its else')
-      return true
+    console.log(keys)
+    if (keys.length > 0) {
+      if (keys[0] === 'A') {
+        console.log("its A's")
+        return true
+      } else if ([2, 3, 4].includes(parseInt(keys[0]))) {
+        console.log("its 234")
+        return true
+      } else {
+        console.log('its else')
+        return true
+      }
     }
-  }
-
-  four234() {
-    let cardHash = this.values.hashCounter();
-    Object.keys(cardHash).forEach((key) => {
-      if (cardHash[key] !== 4) 
-        delete cardHash[key]
-    })
-    let keys = Object.keys(cardHash);
-    let k = parseInt(keys[0])
-    
-    return [2,3,4].includes(k)
-  }
-
-  four5thruK() {
-    let cardHash = this.values.hashCounter();
-    let counts = Object.values(cardHash);
-
-    return counts.sort().equals([1, 4]);
+    return false
   }
 
   fullHouse() {
@@ -67,10 +71,20 @@ class WinningHand {
   };
 
   flush() {
-    console.log(this.suits)
     let suits = new Set(this.suits)
-    console.log(suits)
+
     return suits.size === 1;
+  }
+
+  straight() {
+    let order = [];
+    this.values.forEach((ele) => {
+      order.push(parseInt(VALUES[ele]))
+    })
+
+    let sorted = order.sort((a,b) => a -b)
+  
+    return sorted[4] - sorted[0] === 4
   }
 
   threeofaKind() {

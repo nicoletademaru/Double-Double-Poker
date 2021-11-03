@@ -68,8 +68,11 @@ class Game {
         } else if (i === 3 && this.start === true) {
             this.dealCards(ctx);
             this.start = false
+            console.log(this.currHand)
             let finalHand = new WinningHand(this.currHand)
-            console.log(`pair ${finalHand.fours()}`);
+            console.log(`pair ${finalHand.straight()}`);
+          console.log(`pair ${finalHand.straightFlush()}`);
+
         }
       this.showStats(ctx);
     }
@@ -161,7 +164,7 @@ class Game {
     //   }
     // } 
       if (this.start === false) {
-        let test = [12,25,38,51, 3]
+        let test = [18,19,20,21,22]
         for (let i = 0; i < test.length; i++) {
           this.currHand.push(this.deck[test[i]])
         }
