@@ -23,7 +23,7 @@ class Game {
     this.board = new Board(ctx);
     this.bet = 1;
     this.credit = 100;
-    this.deck = this.resetDeck();
+    this.deck = this.resetDeck(ctx);
     this.start = false;
     console.log(this.start)
     this.currHand = [];
@@ -50,7 +50,8 @@ class Game {
         }
         // Start game with max bet of 5 and subtract from total credits
         else if (i === 2 && this.start === false) {
-          this.resetDeck();
+          this.resetDeck(ctx);
+          this.currHand = [];
           this.bet = 5;
           this.credit -= 5
           this.dealCards(ctx);
@@ -58,12 +59,16 @@ class Game {
         }
         // Start game with current bet and subtract from total credits
         else if (i === 3 && this.start === false) {
-          this.resetDeck();
+          console.log("NEW GAME")
+          this.resetDeck(ctx);
+          this.currHand = [];
           this.credit -= this.bet;
           this.dealCards(ctx);
+          console.log(this.deck)
           this.start = true;
         } else if (i === 3 && this.start === true) {
           this.dealCards(ctx);
+          this.start = false
         }
       this.showStats(ctx);
     }
@@ -105,7 +110,7 @@ class Game {
     // Print out current credits
     ctx.font = '900 32.1px Courier New';
     ctx.textAlign = 'right';
-    ctx.clearRect(720, 568, 200, 40);
+    ctx.clearRect(720, 568, 205, 40);
     ctx.strokeText(`CREDIT ${this.credit}`, 920, 605);
 
     ctx.font = 'bolder 32px Courier New';
@@ -125,12 +130,13 @@ class Game {
     }
   }
 
-  resetDeck() {
-    let deck = {}
+  resetDeck(ctx) {
+    ctx.clearRect(70, 320, 800, 300)
+    let newDeck = {}
     let p = 0
     for (let i = 1; i < 5; i++) {
       for (let j = 1; j < 14; j++) {
-          deck[p] = new Card({
+          newDeck[p] = new Card({
           value: VALUES[j],
           suit: SUITS[i],
           sx: 81 * (j-1),
@@ -139,13 +145,12 @@ class Game {
         p++
       }
     }
-    return deck;
+    this.deck = newDeck;
   }
 
   dealCards(ctx) {
     // Deal all five cards at the start of a game
     if (this.start === false) {
-      console.log("when start is true")
         while (this.currHand.length !== 5) {
         let rand = Math.floor(Math.random() * 52);
         if (this.deck[rand] !== undefined) {
@@ -157,16 +162,19 @@ class Game {
     // Draw new cards for the ones that were not held
         for (let i = 0; i < 5; i++) {
           if (this.currHand[i].held === false) {
+            console.log(`this is index of ${i}`)
             let rand = Math.floor(Math.random() * 52);
-            if (this.deck[rand] !== undefined) {
-              this.deck[rand].pos = this.currHand[i].pos;
-              this.currHand[i] = this.deck[rand];
-              delete this.deck[rand];
-          }
+            while (this.deck[rand] === undefined) {
+              rand = Math.floor(Math.random() * 52);
+            }
+            console.log(rand)
+            console.log(this.deck)
+            this.deck[rand].pos = this.currHand[i].pos;
+            this.currHand[i] = this.deck[rand];
+            delete this.deck[rand];
         }
       }
       this.start = false
-      console.log(this.start)
     }
 
     // Print out cards every 0.5 seconds
@@ -177,7 +185,7 @@ class Game {
         this.currHand[i].draw(ctx, this.board.cardPos[i]);
         i++
       }
-    }, 500)
+    }, 200)
   }
 
 }
