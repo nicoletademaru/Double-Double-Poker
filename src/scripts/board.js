@@ -106,14 +106,46 @@ class Board {
       this.buttons[i].draw(ctx)
       this.buttons[i].populate(ctx, BUTTONS[i][0])
     }
+
   };
 
-  addSpeed(ctx) {
+  addInstructions(ctx) {
     let pos = [200, 623]
     let button = new Button({ pos })
     return button
   };
 
+  instructions(ctx) {
+    // create transparent background
+    ctx.globalAlpha = 0.5;
+    ctx.fillStyle = 'grey';
+    ctx.fillRect(0, 0, 950, 680);
+
+    // create the instructions box pop-up
+    ctx.globalAlpha = 1.0;
+    ctx.fillStyle = "#17015A"
+    ctx.fillRect(100, 140, 750, 400);
+    ctx.strokeStyle = '#F0E222';
+    ctx.rect(100, 140, 750, 400);
+
+
+    // Add title
+    ctx.font = '400 38px Arial';
+    ctx.strokeText(`I N S T R U C T I O N S`, 475, 195);
+    ctx.lineWidth = 7;
+    ctx.stroke();
+
+    // Add instructions
+    ctx.font = '23px Arial';
+    ctx.fillStyle = 'white';
+    ctx.fillText(`Welcome to Double-Double-Bonus-Poker! `, 475, 250);
+    ctx.font = '18.5px Arial';
+    ctx.fillText(`Your goal is to get a hand that you see in the payout table and the rules are simple: `, 475, 310);
+    ctx.fillText(`1. Select your bet.`, 475, 340);
+    ctx.fillText(`2. Click "Deal" to get five cards.`, 475, 370);
+    ctx.fillText(`3. Choose the cards you want to hold by clicking on them.`, 475, 410);
+    ctx.fillText(`4. Click "Draw" to change the discarded cards.`, 475, 450);
+  }
 }
 
 

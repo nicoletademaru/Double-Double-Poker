@@ -46,7 +46,17 @@ class Game {
     this.currHand = [];
     this.tableHighlight(ctx);
     this.showStats(ctx);
-  }
+    // this.board.instructions(ctx)
+;  }
+  
+  // instructions(ctx) {
+  //   ctx.fillStyle = "#17015A"
+  //   ctx.fillRect(100, 140, 750, 400);
+  //   ctx.fillStyle = "#F0E222"
+  //   ctx.font = '900 21px Arial';
+  //   ctx.strokeText(`INSTRUCTIONS`, 920, 605);
+  // }
+
 
   tableHighlight(ctx) {
     ctx.fillStyle = "#17015A"
