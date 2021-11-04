@@ -50,7 +50,7 @@ class Game {
 
   tableHighlight(ctx) {
     ctx.fillStyle = "#17015A"
-    ctx.fillRect(30, 16, 890, 265);
+    ctx.fillRect(30, 16, 890, 267);
     ctx.fillStyle = "#D70115";
     ctx.fillRect(225+(115* this.bet), 17, 115, 270);
     this.board.addColumns(ctx)
@@ -218,7 +218,7 @@ class Game {
         this.win = PAYOUTS[i][1];
         this.credit += this.payout;
         ctx.fillStyle = "#3C01C8";
-        ctx.fillRect(34.5, 0 + (19.5*i), 305, 21);
+        ctx.fillRect(34.5, 0 + (20*i), 305, 21);
         ctx.fillStyle = "#F0E222"
         this.board.populateColumns(ctx);
         this.showStats(ctx);
