@@ -23,7 +23,6 @@ class WinningHand {
 
   royalFlush(){
     let royals = [10, 'J', 'Q', 'K', 'A']
-    console.log(this.hand)
     let suit = this.hand[0].suit
 
     for (let i = 0; i < royals.length; i++) {
