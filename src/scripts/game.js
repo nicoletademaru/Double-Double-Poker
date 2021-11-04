@@ -18,6 +18,21 @@ let VALUES = {
   12: "K",
   13: "A"
 }
+const PAYOUTS = {
+  1: [250, "ROYAL FLUSH", "royalFlush"],
+  2: [50, "STRAIGHT FLUSH", "straightFlush"],
+  3: [400, "FOUR ACES WITH ANY 2,3,4", "fourAandKicker"],
+  4: [160, "FOUR 2s, 3s, 4s w/ANY A,2,3,4", "four234andKicker"],
+  5: [160, "FOUR ACES", "fourA"],
+  6: [80, "FOUR 2s, 3s, 4s", "four234"],
+  7: [50, "FOUR 5s THRU KINGS", "fours"],
+  8: [9, "FULL HOUSE", "fullHouse"],
+  9: [6, "FLUSH", "flush"],
+  10: [4, "STRAIGHT", "straight"],
+  11: [3, "THREE OF A KIND", "threeofaKind"],
+  12: [1, "TWO PAIR", "twoPair"],
+  13: [1, "JACKS OR BETTER", "jacksOrBetter"]
+};
 
 class Game {
   constructor(ctx) {
@@ -26,6 +41,8 @@ class Game {
     this.credit = 100;
     this.deck = this.resetDeck(ctx);
     this.start = false;
+    this.payout = 0;
+    this.win = "";
     this.currHand = [];
     this.showStats(ctx);
   }
@@ -51,6 +68,7 @@ class Game {
         // Start game with max bet of 5 and subtract from total credits
         else if (i === 2 && this.start === false) {
           this.resetDeck(ctx);
+          this.payout = 0;
           this.currHand = [];
           this.bet = 5;
           this.credit -= 5
@@ -62,21 +80,19 @@ class Game {
             console.log("NEW GAME")
             this.resetDeck(ctx);
             this.currHand = [];
+            this.payout = 0;
             this.credit -= this.bet;
             this.dealCards(ctx);
             this.start = true;
         } else if (i === 3 && this.start === true) {
             this.dealCards(ctx);
             this.start = false
-            console.log(this.currHand)
-            let finalHand = new WinningHand(this.currHand)
-            console.log(`pair ${finalHand.straight()}`);
-          console.log(`pair ${finalHand.straightFlush()}`);
-
+            this.checkWin(ctx)
         }
       this.showStats(ctx);
     }
   }
+
 
   cardClicks(ctx, x, y) {
     let cards = this.currHand;
@@ -114,7 +130,7 @@ class Game {
     // Print out current credits
     ctx.font = '900 32.1px Courier New';
     ctx.textAlign = 'right';
-    ctx.clearRect(720, 568, 205, 40);
+    ctx.clearRect(680, 568, 245, 40);
     ctx.strokeText(`CREDIT ${this.credit}`, 920, 605);
 
     ctx.font = 'bolder 32px Courier New';
@@ -131,6 +147,56 @@ class Game {
       ctx.clearRect(820, 623, 200, 100);
       this.board.buttons[3].draw(ctx)
       this.board.buttons[3].populate(ctx, "DRAW")
+    }
+  }
+
+  showWinsStats(ctx) {
+    // show winnings
+    ctx.font = '900 32.1px Courier New';
+    ctx.textAlign = 'center';
+    ctx.clearRect(435, 568, 90, 40);
+    ctx.strokeText(`WIN ${this.payout}`, 80, 605);
+
+    ctx.font = 'bolder 32px Courier New';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'red'
+    ctx.fillText(`WIN ${this.payout}`, 80, 605);
+
+    // show winning hand
+    ctx.font = '900 32.1px Courier New';
+    ctx.textAlign = 'center';
+    ctx.clearRect(475, 305, 90, 40);
+    ctx.strokeText(`${this.win}`, 475, 325);
+
+    ctx.font = 'bolder 32px Courier New';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'red'
+    ctx.fillText(`${this.win}`, 475, 325);
+  }
+
+  checkWin(ctx) {
+    let final = new WinningHand(this.currHand)
+    for (let i = 1; i < 14; i++) {
+      let func = PAYOUTS[i][2]
+      console.log(final[func]())
+
+      if (final[func]() === true && i === 1 && this.bet === 5) {
+        this.payout += PAYOUTS[i][0] * 16;
+        this.win = PAYOUTS[i][1];
+        this.credit += this.payout;
+        this.showStats(ctx);
+        this.showWinsStats(ctx)
+        break;
+      }
+      else if (final[func]() === true) {
+        this.payout += PAYOUTS[i][0] * (this.bet);
+        this.win = PAYOUTS[i][1];
+        console.log('youmadeit')
+        this.credit += this.payout;
+        this.showStats(ctx);
+        this.showWinsStats(ctx)
+        break;
+      }
     }
   }
 
@@ -154,21 +220,22 @@ class Game {
 
   dealCards(ctx) {
     // Deal all five cards at the start of a game
-    // if (this.start === false) {
-    //     while (this.currHand.length !== 5) {
-    //     let rand = Math.floor(Math.random() * 52);
-    //     if (this.deck[rand] !== undefined) {
-    //       this.currHand.push(this.deck[rand]);
-    //       delete this.deck[rand];
-    //     }
-    //   }
-    // } 
-      if (this.start === false) {
-        let test = [18,19,20,21,22]
-        for (let i = 0; i < test.length; i++) {
-          this.currHand.push(this.deck[test[i]])
+    if (this.start === false) {
+        while (this.currHand.length !== 5) {
+        let rand = Math.floor(Math.random() * 52);
+        if (this.deck[rand] !== undefined) {
+          this.currHand.push(this.deck[rand]);
+          delete this.deck[rand];
         }
       }
+    } 
+    // set default cards to test winning hands
+      // if (this.start === false) {
+      //   let test = [8,9,10,11,12]
+      //   for (let i = 0; i < test.length; i++) {
+      //     this.currHand.push(this.deck[test[i]])
+      //   }
+      // }
       else {
     // Draw new cards for the ones that were not held
         for (let i = 0; i < 5; i++) {

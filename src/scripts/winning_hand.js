@@ -17,8 +17,6 @@ let VALUES = {
 class WinningHand {
   constructor(hand) {
   this.hand = hand;
-  this.payout = 0;
-  this.win = "";
   this.values = hand.map((card) => card.value);
   this.suits = hand.map((card) => card.suit)
   }
@@ -39,7 +37,29 @@ class WinningHand {
     return this.flush() && this.straight();
   }
 
-  fours() {
+  fourAandKicker() {
+    let cardHash = this.values.hashCounter();
+    let kicker = 0;
+    Object.keys(cardHash).forEach((key) => {
+      if (cardHash[key] === 1)
+        kicker = key
+    })
+
+    return this.fourA() && ['2', '3', '4'].includes(kicker)
+  }
+
+  four234andKicker() {
+    let cardHash = this.values.hashCounter();
+    let kicker = 0;
+    Object.keys(cardHash).forEach((key) => {
+      if (cardHash[key] === 1)
+        kicker = key
+    })
+
+    return this.four234() && ['A','2','3','4'].includes(kicker)
+  }
+
+  fourA() {
     let cardHash = this.values.hashCounter();
     Object.keys(cardHash).forEach((key) => {
       if (cardHash[key] !== 4)
@@ -47,20 +67,27 @@ class WinningHand {
     })
 
     let keys = Object.keys(cardHash);
-    console.log(keys)
-    if (keys.length > 0) {
-      if (keys[0] === 'A') {
-        console.log("its A's")
-        return true
-      } else if ([2, 3, 4].includes(parseInt(keys[0]))) {
-        console.log("its 234")
-        return true
-      } else {
-        console.log('its else')
-        return true
-      }
-    }
-    return false
+
+    return keys[0] === 'A'
+  }
+
+  four234() {
+    let cardHash = this.values.hashCounter();
+    Object.keys(cardHash).forEach((key) => {
+      if (cardHash[key] !== 4)
+        delete cardHash[key]
+    })
+
+    let keys = Object.keys(cardHash);
+
+    return [2, 3, 4].includes(parseInt(keys[0]))
+  }
+
+  fours() {
+    let cardHash = this.values.hashCounter();
+    let counts = Object.values(cardHash);
+
+    return counts.sort().equals([1, 4]);
   }
 
   fullHouse() {
@@ -131,5 +158,6 @@ Array.prototype.hashCounter = function() {
 Array.prototype.equals = function(arr) {
   return this.length === arr.length && this.every((val, idx) => val === arr[idx])
 }
+
 
 export default WinningHand;
