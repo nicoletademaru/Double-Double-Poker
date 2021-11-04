@@ -201,7 +201,7 @@ class Game {
   }
 
   resetDeck(ctx) {
-    ctx.clearRect(70, 320, 800, 300)
+    ctx.clearRect(15, 300, 850, 320)
     let newDeck = {}
     let p = 0
     for (let i = 1; i < 5; i++) {
@@ -231,7 +231,7 @@ class Game {
     } 
     // set default cards to test winning hands
       // if (this.start === false) {
-      //   let test = [8,9,10,11,12]
+      //   let test = [1,2,3,4,18]
       //   for (let i = 0; i < test.length; i++) {
       //     this.currHand.push(this.deck[test[i]])
       //   }

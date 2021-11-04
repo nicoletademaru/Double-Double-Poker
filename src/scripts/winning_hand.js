@@ -109,9 +109,11 @@ class WinningHand {
       order.push(parseInt(VALUES[ele]))
     })
 
+    let vals = new Set(order)
+
     let sorted = order.sort((a,b) => a -b)
   
-    return sorted[4] - sorted[0] === 4
+    return (vals.size === 5 && sorted[4] - sorted[0] === 4)
   }
 
   threeofaKind() {
