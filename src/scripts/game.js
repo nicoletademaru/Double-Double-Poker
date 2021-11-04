@@ -46,16 +46,9 @@ class Game {
     this.currHand = [];
     this.tableHighlight(ctx);
     this.showStats(ctx);
-    // this.board.instructions(ctx)
-;  }
-  
-  // instructions(ctx) {
-  //   ctx.fillStyle = "#17015A"
-  //   ctx.fillRect(100, 140, 750, 400);
-  //   ctx.fillStyle = "#F0E222"
-  //   ctx.font = '900 21px Arial';
-  //   ctx.strokeText(`INSTRUCTIONS`, 920, 605);
-  // }
+    // this.board.instructions(ctx);
+    // console.log(this.board.buttons)
+  }
 
 
   tableHighlight(ctx) {
@@ -77,9 +70,11 @@ class Game {
           if (this.bet === 5) {
             this.bet = 5;
             this.tableHighlight(ctx);
+            this.showStats(ctx);
           } else {
             this.bet += 1;
             this.tableHighlight(ctx);
+            this.showStats(ctx);
           }
         }
         // Decrease bet by 1 if game has not started 
@@ -87,9 +82,11 @@ class Game {
           if (this.bet === 1) {
             this.bet = 1;
             this.tableHighlight(ctx); 
+            this.showStats(ctx);
           } else {
             this.bet -= 1;
             this.tableHighlight(ctx);
+            this.showStats(ctx);
           }
         }
         // Start game with max bet of 5 and subtract from total credits
@@ -102,27 +99,44 @@ class Game {
           this.tableHighlight(ctx);
           this.dealCards(ctx);
           this.start = true;
+          this.showStats(ctx);
         }
         // Start game with current bet and subtract from total credits
         else if (i === 3 && this.start === false && this.credit !== 0) {
-            this.resetDeck(ctx);
-            this.currHand = [];
-            this.payout = 0;
-            this.credit -= this.bet;
-            this.dealCards(ctx);
-            this.start = true;
+          this.resetDeck(ctx);
+          this.currHand = [];
+          this.payout = 0;
+          this.credit -= this.bet;
+          this.dealCards(ctx);
+          this.start = true;
+          this.showStats(ctx);
       } else if (i === 3 && this.start === true && this.credit > 0) {
-            this.dealCards(ctx);
-            this.start = false
-            this.checkWin(ctx)
-      } else if (i === 4 && this.clicked === false)
-            this.board.instructions(ctx);
-        else if (i === 4 && this.clicked === true)
-          ctx.clearRect(100, 140, 750, 400);
-      this.showStats(ctx);
+          this.dealCards(ctx);
+          this.start = false
+          this.checkWin(ctx)
+          this.showStats(ctx);
+      } else if (i === 4 && this.board.buttons[i].clicked === false) {
+          ctx.lineWidth = 7;
+          this.board.instructions(ctx);
+          this.board.buttons[i].clicked = true;
+      } else if (i === 4) {
+          ctx.clearRect(0,0,950,680)
+          this.board.addButtons(ctx);
+          this.showStats(ctx);
+          this.tableHighlight(ctx)
+          if (this.start === true)
+            this.drawCards(ctx)
+          this.board.buttons[i].clicked = false
+      }
     }
+
   }
 
+  drawCards(ctx) {
+    for (let i = 0; i < 5; i++) {
+      this.currHand[i].draw(ctx, this.currHand[i].pos);
+      }
+  }
 
   cardClicks(ctx, x, y) {
     let cards = this.currHand;
@@ -131,7 +145,7 @@ class Game {
 
       if (card.isValid(x,y) && this.start === true) {
         if (card.held === true) {
-          ctx.clearRect(card.pos[0], card.pos[1], 120, -40);
+          ctx.clearRect(card.pos[0], card.pos[1], 130, -40);
           card.held = false;
         } else {
         // Add "held" above the card
@@ -146,14 +160,11 @@ class Game {
   }
 
   showStats(ctx) {
+    ctx.lineWidth = 7;
     // Print out current bet
-    ctx.shadowBlur = 10;
-    ctx.shadowColor = 'transparent'
-    ctx.shadowOffsetX = 1;
-    ctx.shadowOffsetY = 1;
     ctx.font = '900 32.1px Courier New';
     ctx.textAlign = 'center';
-    ctx.clearRect(435, 568, 90, 40);
+    ctx.clearRect(435, 568, 90, 45);
     ctx.strokeText(`BET ${this.bet}`, 475, 605);
 
     ctx.font = 'bolder 32px Courier New';
@@ -164,7 +175,7 @@ class Game {
     // Print out current credits
     ctx.font = '900 32.1px Courier New';
     ctx.textAlign = 'right';
-    ctx.clearRect(680, 568, 245, 40);
+    ctx.clearRect(680, 568, 245, 45);
     ctx.strokeText(`CREDIT ${this.credit}`, 920, 605);
 
     ctx.font = 'bolder 32px Courier New';
@@ -186,10 +197,11 @@ class Game {
   }
 
   showWinsStats(ctx) {
+    ctx.beginPath();
     // show winnings
     ctx.font = '900 32.1px Courier New';
     ctx.textAlign = 'left';
-    ctx.clearRect(435, 568, 90, 40);
+    ctx.clearRect(435, 568, 90, 50);
     ctx.strokeText(`WIN ${this.payout}`, 25, 605);
 
     ctx.font = 'bolder 32px Courier New';
@@ -207,6 +219,7 @@ class Game {
     ctx.textAlign = 'center';
     ctx.fillStyle = '#BF0217'
     ctx.fillText(`${this.win}`, 475, 325);
+    ctx.closePath();
   }
 
   checkWin(ctx) {

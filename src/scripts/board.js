@@ -99,7 +99,7 @@ class Board {
     }
 
     let pos = [50, 623]
-    let but = new Button({ pos })
+    let but = new Button({ pos, clicked: false })
     this.buttons.push(but)
 
     this.drawButtons(ctx)
@@ -112,13 +112,9 @@ class Board {
     }
   };
 
-  addInstructions(ctx) {
-    let pos = [200, 623]
-    let button = new Button({ pos })
-    return button
-  };
-
   instructions(ctx) {
+    ctx.beginPath();
+    ctx.textAlign = 'center'
     // create transparent background
     ctx.globalAlpha = 0.5;
     ctx.fillStyle = 'grey';
@@ -133,10 +129,12 @@ class Board {
 
 
     // Add title
-    ctx.font = '400 38px Arial';
-    ctx.strokeText(`I N S T R U C T I O N S`, 475, 195);
-    ctx.lineWidth = 7;
+    ctx.font = '800 38px Arial';
+    ctx.fillStyle = "#F0E222"
+    ctx.fillText(`I N S T R U C T I O N S`, 475, 195);
     ctx.stroke();
+    ctx.closePath();
+
 
     // Add instructions
     ctx.font = '23px Arial';
@@ -145,9 +143,11 @@ class Board {
     ctx.font = '18.5px Arial';
     ctx.fillText(`Your goal is to get a hand that you see in the payout table and the rules are simple: `, 475, 310);
     ctx.fillText(`1. Select your bet.`, 475, 340);
-    ctx.fillText(`2. Click "Deal" to get five cards.`, 475, 370);
+    ctx.fillText(`2. Click "DEAL" to get five cards.`, 475, 370);
     ctx.fillText(`3. Choose the cards you want to hold by clicking on them.`, 475, 410);
-    ctx.fillText(`4. Click "Draw" to change the discarded cards.`, 475, 450);
+    ctx.fillText(`4. Click "DRAW" to change the discarded cards.`, 475, 450);
+    ctx.font = '15px Arial';
+    ctx.fillText(`Click "HELP" to return to game.`, 475, 530);
   }
 }
 
