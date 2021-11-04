@@ -124,8 +124,7 @@ class Game {
           this.board.addButtons(ctx);
           this.showStats(ctx);
           this.tableHighlight(ctx)
-          if (this.start === true)
-            this.drawCards(ctx)
+          this.drawCards(ctx)
           this.board.buttons[i].clicked = false
       }
     }

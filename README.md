@@ -2,7 +2,7 @@
 
 ## Background 
 
-Double Double Bonus Poker was my grandparents favorite machine to play in Vegas, and Vagas was their favorite place to visit. Whenever our family would go to Vegas. my granparents would sit everyone down and put $100 in every machine. As a tribute to them, and the fond memories of gambling with them, this game is a recreation of the Double Double Bonus Poker machines in Vegas and each game will start with 100 credits. 
+Double Double Bonus Poker was my grandparents favorite machine to play in Vegas, and Vegas was their favorite place to visit. Whenever our family would go, my granparents would sit everyone down and put $100 in every machine. As a tribute to them, and the fond memories of gambling with them, this game is a recreation of the Double Double Bonus Poker machines in Vegas and each game will start with 100 credits. 
 
 ## Game Play
 
