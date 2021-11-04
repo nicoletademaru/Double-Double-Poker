@@ -3,6 +3,7 @@ class Button {
     this.pos = object["pos"]
     this.width = 90;
     this.height = 40;
+    this.clicked = false
   }
 
   draw(ctx) {

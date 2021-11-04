@@ -23,7 +23,7 @@ const BUTTONS = {
   1: ["BET -1"],
   2: ["MAX BET"],
   3: ["DEAL"],
-  4: ["DRAW"]
+  4: ["HELP"]
 }
 
 class Board {
@@ -98,15 +98,18 @@ class Board {
       this.buttons.push(button)
     }
 
+    let pos = [50, 623]
+    let but = new Button({ pos })
+    this.buttons.push(but)
+
     this.drawButtons(ctx)
   };
 
   drawButtons(ctx) {
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
       this.buttons[i].draw(ctx)
       this.buttons[i].populate(ctx, BUTTONS[i][0])
     }
-
   };
 
   addInstructions(ctx) {

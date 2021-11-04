@@ -115,7 +115,10 @@ class Game {
             this.dealCards(ctx);
             this.start = false
             this.checkWin(ctx)
-        }
+      } else if (i === 4 && this.clicked === false)
+            this.board.instructions(ctx);
+        else if (i === 4 && this.clicked === true)
+          ctx.clearRect(100, 140, 750, 400);
       this.showStats(ctx);
     }
   }
@@ -128,7 +131,7 @@ class Game {
 
       if (card.isValid(x,y) && this.start === true) {
         if (card.held === true) {
-          ctx.clearRect(card.pos[0], card.pos[1], 100, -40);
+          ctx.clearRect(card.pos[0], card.pos[1], 120, -40);
           card.held = false;
         } else {
         // Add "held" above the card
