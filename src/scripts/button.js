@@ -17,7 +17,7 @@ class Button {
     let x = (this.pos[0] + 45)
     let y = (this.pos[1] + 26)
     ctx.beginPath();
-    ctx.font = '17px Arial';
+    ctx.font = '800 17px Arial';
     ctx.textAlign = 'center';
     ctx.fillStyle = 'black'
     ctx.fillText(label, x, y);
