@@ -1,6 +1,7 @@
 import Game from "./scripts/game";
 
 document.addEventListener("DOMContentLoaded",() => {
+  
   const canvas = document.getElementById("canvas");
   canvas.width = 950;
   canvas.height = 680;
