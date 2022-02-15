@@ -102,11 +102,12 @@ class Game {
           this.showStats(ctx);
         }
         // Start game with current bet and subtract from total credits
-        else if (i === 3 && this.start === false && this.credit !== 0) {
+        else if (i === 3 && this.start === false && this.credit > 0) {
           this.resetDeck(ctx);
           this.currHand = [];
           this.payout = 0;
           this.credit -= this.bet;
+          this.tableHighlight(ctx);
           this.dealCards(ctx);
           this.start = true;
           this.showStats(ctx);
@@ -230,9 +231,11 @@ class Game {
         this.payout += PAYOUTS[i][0] * 16;
         this.win = PAYOUTS[i][1];
         this.credit += this.payout;
+        ctx.beginPath();
         ctx.fillStyle = "#3C01C8";
         ctx.fillRect(34.5, 0 + (21 * i), 305, 21);
         ctx.fillStyle = "#F0E222"
+        ctx.closePath();
         this.board.populateColumns(ctx);
         this.showStats(ctx);
         this.showWinsStats(ctx)
